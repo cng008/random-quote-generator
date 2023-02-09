@@ -44,30 +44,37 @@ const QuoteBox = () => {
           <p id="author" style={{ color: currentTheme }}>
             - {currentQuote.author}
           </p>
-          <a
-            title="Tweet this quote!"
-            href={
-              'http://www.twitter.com/intent/tweet?hashtags=quotes&text=' +
-              currentQuote.quote
-            }
-            target="_blank"
-            id="tweet-quote"
-          >
-            <i
-              className="fa-brands fa-square-twitter"
-              style={{ color: currentTheme }}
-            ></i>
-          </a>
-          <button
-            id="new-quote"
-            onClick={fetchQuote}
-            style={{ background: currentTheme }}
-          >
-            New quote
-          </button>
+          <div id="buttons">
+            <a
+              title="Tweet this quote!"
+              href={
+                'http://www.twitter.com/intent/tweet?hashtags=quotes&text=' +
+                currentQuote.quote
+              }
+              target="_blank"
+              rel="noopener noreferrer"
+              id="tweet-quote"
+            >
+              <i
+                className="fa-brands fa-square-twitter"
+                style={{ color: currentTheme }}
+              ></i>
+            </a>
+            <button
+              id="new-quote"
+              onClick={fetchQuote}
+              style={{ background: currentTheme }}
+            >
+              New quote
+            </button>
+          </div>
         </div>
         <div id="credits">
-          <a href="https://github.com/cng008" target="_blank">
+          <a
+            href="https://github.com/cng008"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             by christien
           </a>
         </div>
