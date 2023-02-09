@@ -1,9 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import axios from 'axios';
+import { useSelector, useDispatch } from 'react-redux';
+import { randomColor } from './helpers';
 
-const QuoteBox = () => {
-  const [currentQuote, setCurrentQuote] = useState('');
-  const [currentTheme, setCurrentTheme] = useState('');
+const QuoteBox = ({ setQuote, setTheme }) => {
+  const currentQuote = useSelector(state => state.currentQuote);
+  const currentTheme = useSelector(state => state.currentTheme);
+  const dispatch = useDispatch();
 
   const BASE_URL = 'https://api.api-ninjas.com/v1/quotes';
   const config = {
@@ -13,19 +16,14 @@ const QuoteBox = () => {
   };
   const fetchQuote = async () => {
     const res = await axios.get(`${BASE_URL}?category=inspirational`, config);
-    const quote = res.data[0].quote;
-    if (quote.length > 300) fetchQuote();
-    setCurrentQuote(res.data[0]);
-    setCurrentTheme(randomColor());
+    const quote = res.data[0];
+    if (quote.quote.length > 300) await fetchQuote();
+    dispatch(setQuote(quote));
+    dispatch(setTheme(randomColor()));
   };
   document.body.style.background = currentTheme;
 
-  const randomColor = () => {
-    const colors = ['#f94144', '#f3722c', '#f8961e', '#f9844a','#90be6d','#43aa8b','#4d908e','#577590','#277da1','#001427','#708d81','#f4d58d','#bf0603','#8d0801','#d88c9a','#f2d0a9','#f1e3d3','#99c1b9','#8e7dbe']; // prettier-ignore
-    const randomIdx = Math.floor(Math.random() * colors.length);
-    return colors[randomIdx];
-  };
-  console.debug(currentQuote, currentTheme);
+  console.log(currentQuote, currentTheme);
   useEffect(() => {
     fetchQuote();
   }, []);
